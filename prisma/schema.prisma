@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Boock {
+  id          String @id @default(uuid())
+  title       String
+  description String
+  editorial   String
+  author      String
+  place       String
+  year        Int
+  pages       Int
+  genderId    Int
+  categoryId  Int
+
+  // RELATIONS FOREIGN KEY
+  gender   Gender   @relation(fields: [genderId], references: [id], onUpdate: Cascade)
+  category Category @relation(fields: [categoryId], references: [id], onUpdate: Cascade)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+}
+
+model Gender {
+  id        Int       @id @default(autoincrement())
+  name      String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+  Boock     Boock[]
+}
+
+model Category {
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+  Boock       Boock[]
+}
