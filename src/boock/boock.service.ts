@@ -1,9 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { CreateBoockDto } from './dto/create-boock.dto';
 import { UpdateBoockDto } from './dto/update-boock.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class BoockService {
+  constructor(private readonly PrismaService: PrismaService) {}
+
   create(createBoockDto: CreateBoockDto) {
     return 'This action adds a new boock';
   }
